@@ -1,4 +1,6 @@
 package Developer;
+import Issue.Issue;
+import jade.core.AID;
 import jade.core.Agent;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
@@ -11,6 +13,10 @@ public class DeveloperAgent extends Agent {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private AID gitAgent;
+	private Integer percentual;
+	private Issue issue;
 
 	// Method for initial configurations about Developer Agent
 	protected void setup() {
@@ -27,16 +33,21 @@ public class DeveloperAgent extends Agent {
 		try {
 			DFService.register(this, df);
 			
+			DFAgentDescription adGitAgent = new DFAgentDescription();
+			ServiceDescription sdGitAgent = new ServiceDescription();
+			sdGitAgent.setType("book-selling");
+			adGitAgent.addServices(sd);
+			try {
+				DFAgentDescription[] result = DFService.search(this, adGitAgent); 
+				this.setGitAgent(result[0].getName());
+			} catch (FIPAException e) {
+				e.printStackTrace();
+			}
+			
 			// Setting behavior for Developer Agent
 			
 			DeveloperControlIssueBehavior behavior1 = new DeveloperControlIssueBehavior(this);
 			addBehaviour(behavior1);
-	
-			DeveloperDoIssueBehavior behavior2 = new DeveloperDoIssueBehavior(this);
-			addBehaviour(behavior2);
-			
-			DeveloperDoMergeRequestBehavior behavior3 = new DeveloperDoMergeRequestBehavior(this);
-			addBehaviour(behavior3);
 			
 		} catch (FIPAException e) {
 			e.printStackTrace();
@@ -53,5 +64,29 @@ public class DeveloperAgent extends Agent {
 			e.printStackTrace();
 		}
 		super.takeDown();
+	}
+
+	public Integer getPercentual() {
+		return percentual;
+	}
+
+	public void setPercentual(Integer percentual) {
+		this.percentual = percentual;
+	}
+
+	public Issue getIssue() {
+		return issue;
+	}
+
+	public void setIssue(Issue issue) {
+		this.issue = issue;
+	}
+
+	public AID getGitAgent() {
+		return gitAgent;
+	}
+
+	public void setGitAgent(AID gitAgent) {
+		this.gitAgent = gitAgent;
 	}
 }

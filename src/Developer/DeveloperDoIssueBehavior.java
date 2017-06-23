@@ -2,7 +2,6 @@ package Developer;
 
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
-import jade.lang.acl.ACLMessage;
 
 public class DeveloperDoIssueBehavior extends CyclicBehaviour {
 
@@ -19,13 +18,14 @@ public class DeveloperDoIssueBehavior extends CyclicBehaviour {
 	public void action() {
 		System.out.println("Action of Development Issue");
 		
-		ACLMessage acl = myAgent.receive();
-		
-		if (acl != null) {
-			System.out.println("Message received!");
+		if (((DeveloperAgent) myAgent).getPercentual() == 100) {
+			DeveloperDoMergeRequestBehavior behavior = new DeveloperDoMergeRequestBehavior(myAgent);
+			myAgent.addBehaviour(behavior);
 		} else {
+			((DeveloperAgent) myAgent).setPercentual(((DeveloperAgent) myAgent).getPercentual() + 1);
 			block();
 		}
+		
 	}
 
 }
