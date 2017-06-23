@@ -2,6 +2,7 @@ package Git;
 
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
+import jade.lang.acl.ACLMessage;
 
 public class GitControlIssuesBehavior extends CyclicBehaviour {
 
@@ -16,7 +17,15 @@ public class GitControlIssuesBehavior extends CyclicBehaviour {
 
 	@Override
 	public void action() {
-		// TODO Auto-generated method stub
+		System.out.println("Action of Git Cyclick Behaviour");
+		
+		ACLMessage acl = myAgent.receive();
+		
+		if (acl != null) {
+			System.out.println("Message received!");
+		} else {
+			block();
+		}
 		
 	}
 

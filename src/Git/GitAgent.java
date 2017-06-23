@@ -1,8 +1,16 @@
 package Git;
 import java.util.ArrayList;
 
+import Issue.ClosedIssue;
 import Issue.Issue;
+import Issue.IssueStates;
+import Issue.OpenIssue;
+import Issue.ProgressIssue;
 import jade.core.Agent;
+import jade.domain.DFService;
+import jade.domain.FIPAException;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
 
 public class GitAgent extends Agent {
 	
@@ -17,11 +25,47 @@ public class GitAgent extends Agent {
 	protected void setup() {
 		System.out.println("Setup of Git Agent - "+ this.getLocalName());
 	    
-		// Setting behavior for Git Agent
-	    addBehaviour(new GitControlIssuesBehavior(this));
+		DFAgentDescription df = new DFAgentDescription();
+		df.setName(getAID());
+		
+		ServiceDescription sd = new ServiceDescription();
+		sd.setName(getName());
+		sd.setType("GitAgent");
+		df.addServices(sd);
+
+		try {
+			DFService.register(this, df);
+			
+			// Setting behavior for Git Agent
+			GitControlIssuesBehavior behavior1 = new GitControlIssuesBehavior(this);
+			addBehaviour(behavior1);
+
+			GitIssueStatesBehavior behavior2 = new GitIssueStatesBehavior(this);
+			behavior2.registerFirstState(new OpenIssue(), IssueStates.open.name());
+			behavior2.registerState(new ProgressIssue(), IssueStates.in_progress.name());
+			behavior2.registerLastState(new ClosedIssue(), IssueStates.closed.name());
+
+			behavior2.registerDefaultTransition(IssueStates.open.name(), IssueStates.in_progress.name());
+			behavior2.registerDefaultTransition(IssueStates.in_progress.name(), IssueStates.closed.name());
+			
+			addBehaviour(behavior2);
+			
+		} catch (FIPAException e) {
+			e.printStackTrace();
+			doDelete();
+		}
 	}
 	
-	
+	@Override
+	protected void takeDown() {
+		try {
+			System.out.println("Unregistering of DF");
+			DFService.deregister(this);
+		} catch (FIPAException e) {
+			e.printStackTrace();
+		}
+		super.takeDown();
+	}
 	
 	
 	
