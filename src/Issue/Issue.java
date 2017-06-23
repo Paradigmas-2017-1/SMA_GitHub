@@ -7,6 +7,7 @@ public class Issue {
 	private String description;
 	private Date deliveryDate;
 	private Integer points;
+	private IssueStates state;
 	private Date assignedDate;
 	
 	public Issue(String name, String description, Date deliveryDate, Integer points) {
@@ -14,6 +15,7 @@ public class Issue {
 		this.setDescription(description);
 		this.setDeliveryDate(deliveryDate);
 		this.setPoints(points);
+		this.setState(IssueStates.open);
 		this.setAssignedDate(new Date());
 	}
 
@@ -55,5 +57,13 @@ public class Issue {
 
 	public void setAssignedDate(Date assignedDate) {
 		this.assignedDate = assignedDate;
+	}
+
+	public IssueStates getState() {
+		return state;
+	}
+
+	public void setState(IssueStates state) {
+		this.state = state;
 	}
 }
