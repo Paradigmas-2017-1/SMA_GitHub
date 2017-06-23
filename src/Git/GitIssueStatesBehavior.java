@@ -1,6 +1,5 @@
 package Git;
 
-import jade.core.Agent;
 import jade.core.behaviours.FSMBehaviour;
 
 public class GitIssueStatesBehavior extends FSMBehaviour {
@@ -10,7 +9,7 @@ public class GitIssueStatesBehavior extends FSMBehaviour {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public GitIssueStatesBehavior(Agent agent) {
+	public GitIssueStatesBehavior(GitAgent agent) {
 		super(agent);
 	}
 	
