@@ -13,6 +13,6 @@ public class DeveloperAgent extends Agent {
 		System.out.println("Setup of Developer Agent - "+ this.getLocalName());
 	    
 		// Setting behavior for Developer Agent
-		addBehaviour(new DeveloperBehaviors(this));
+		addBehaviour(new DeveloperControlIssueBehavior(this));
 	}
 }
