@@ -35,7 +35,7 @@ public class DeveloperAgent extends Agent {
 			
 			DFAgentDescription adGitAgent = new DFAgentDescription();
 			ServiceDescription sdGitAgent = new ServiceDescription();
-			sdGitAgent.setType("book-selling");
+			sdGitAgent.setType("GitAgentMaster");
 			adGitAgent.addServices(sd);
 			try {
 				DFAgentDescription[] result = DFService.search(this, adGitAgent); 

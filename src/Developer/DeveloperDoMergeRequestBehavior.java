@@ -27,6 +27,7 @@ public class DeveloperDoMergeRequestBehavior extends OneShotBehaviour {
 		try {
 			sendMessage.setContentObject(((DeveloperAgent) myAgent).getIssue());
 			sendMessage.addReceiver(((DeveloperAgent) myAgent).getGitAgent());
+			sendMessage.setConversationId("issue-finished");
 			
 			myAgent.send(sendMessage);
 		} catch (IOException e) {

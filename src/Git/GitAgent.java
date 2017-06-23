@@ -11,6 +11,7 @@ import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.lang.acl.ACLMessage;
 
 public class GitAgent extends Agent {
 	
@@ -77,6 +78,12 @@ public class GitAgent extends Agent {
 	
 	public void addIssue(Issue issue) {
 		this.getIssues().add(issue);
+		
+		ACLMessage sendMessage = new ACLMessage(ACLMessage.INFORM);
+		sendMessage.addReceiver(getAID());
+		sendMessage.setConversationId("add-new-issue");
+		this.send(sendMessage);
+		
 	}
 
 	public boolean removeIssue(String issueName) {
