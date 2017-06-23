@@ -36,7 +36,7 @@ public class GitAgent extends Agent {
 		try {
 			DFService.register(this, df);
 			
-			// Setting behavior for Git Agent
+			// Setting behaviors for Git Agent
 			GitControlIssuesBehavior behavior1 = new GitControlIssuesBehavior(this);
 			addBehaviour(behavior1);
 
@@ -49,6 +49,9 @@ public class GitAgent extends Agent {
 			behavior2.registerDefaultTransition(IssueStates.in_progress.name(), IssueStates.closed.name());
 			
 			addBehaviour(behavior2);
+			
+			GitEvaluateMergeRequestBehavior behavior3 = new GitEvaluateMergeRequestBehavior(this);
+			addBehaviour(behavior3);
 			
 		} catch (FIPAException e) {
 			e.printStackTrace();
