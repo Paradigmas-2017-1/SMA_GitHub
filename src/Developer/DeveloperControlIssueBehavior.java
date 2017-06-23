@@ -2,6 +2,7 @@ package Developer;
 
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
+import jade.lang.acl.ACLMessage;
 
 public class DeveloperControlIssueBehavior extends CyclicBehaviour {
 
@@ -18,6 +19,13 @@ public class DeveloperControlIssueBehavior extends CyclicBehaviour {
 	public void action() {
 		System.out.println("Action of Control Issue Development");
 		
+		ACLMessage acl = myAgent.receive();
+		
+		if (acl != null) {
+			System.out.println("Message received!");
+		} else {
+			block();
+		}
 	}
 	
 }
